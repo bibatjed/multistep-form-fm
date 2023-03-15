@@ -1,9 +1,12 @@
-import { Switch } from '@headlessui/react';
+import Switch from './Switch';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { PartialForm } from '../types/formState';
+import ArcadeLogo from '../assets/images/icon-arcade.svg';
+import AdvancedLogo from '../assets/images/icon-advanced.svg';
+import ProLogo from '../assets/images/icon-pro.svg';
+import Plan from './Plan';
 
 const input = z.object({
     plan: z.string().trim().min(1, { message: 'This field is required.' }),
@@ -14,8 +17,35 @@ type Input = z.infer<typeof input>;
 
 type SecondFormProps = Input & PartialForm;
 
+type planListType = {
+    monthlyPrice: string;
+    name: string;
+    yearlyPrice: string;
+    src: string;
+};
+
+const planList: planListType[] = [
+    {
+        monthlyPrice: '$9',
+        name: 'Arcade',
+        yearlyPrice: '$90',
+        src: ArcadeLogo,
+    },
+    {
+        monthlyPrice: '$9',
+        name: 'Advanced',
+        yearlyPrice: '$120',
+        src: AdvancedLogo,
+    },
+    {
+        monthlyPrice: '$9',
+        name: 'Pro',
+        yearlyPrice: '$150',
+        src: ProLogo,
+    },
+];
 export default function SecondForm(props: SecondFormProps) {
-    const { register, setValue, handleSubmit, watch } = useForm<Input>({
+    const { setValue, handleSubmit, watch } = useForm<Input>({
         resolver: zodResolver(input),
         values: {
             plan: props.plan,
@@ -23,11 +53,13 @@ export default function SecondForm(props: SecondFormProps) {
         },
     });
 
-    const enabled = watch('planType') === 'yearly';
+    const planType = watch('planType');
+    const plan = watch('plan');
+
+    const enabled = planType === 'yearly';
 
     const changePlan = (value: string) => setValue('plan', value);
     const onSubmit = (data: Input) => {
-        console.log('clicked');
         props.setState((prev) => {
             return {
                 ...prev,
@@ -43,54 +75,55 @@ export default function SecondForm(props: SecondFormProps) {
         );
     };
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <h2>Select your plan</h2>
-            <p>You have the option of monthly or yearly billing</p>
-
-            <div className="flex gap-2">
-                <button
-                    type="button"
-                    onClick={() =>
-                        setValue('plan', 'arcade', { shouldDirty: true })
-                    }
-                >
-                    Arcade
-                </button>
-                <button type="button" onClick={() => changePlan('advanced')}>
-                    Advanced
-                </button>
-
-                <button type="button" onClick={() => changePlan('pro')}>
-                    Pro
-                </button>
+        <form
+            id="hook-form-2"
+            className="bg-white overflow-y-scroll p-5 py-5 w-full shadow-lg border-2 border-white rounded-md"
+            onSubmit={handleSubmit(onSubmit)}
+        >
+            <div className="flex flex-col gap-4">
+                <div className="w-full flex flex-col gap-2">
+                    <h2 className="font-ubuntu text-marine-blue font-bold text-2xl tracking-normal">
+                        Select your plan
+                    </h2>
+                    <p className="font-ubuntu font-normal text-base text-cool-gray">
+                        You have the option of monthly or yearly billing
+                    </p>
+                </div>
             </div>
 
-            <div className="py-16">
-                <span>Monthly</span>
-                <Switch
-                    checked={enabled}
-                    onChange={onChange}
-                    className={`${enabled ? 'bg-teal-900' : 'bg-teal-700'}
-          relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-                >
-                    <span
-                        aria-hidden="true"
-                        className={`${
-                            enabled ? 'translate-x-9' : 'translate-x-0'
-                        }
-            pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-                    />
-                </Switch>
-
-                <span>Yearly</span>
+            <div className="flex flex-col gap-2 mt-3">
+                {planList.map((item, index) => {
+                    const price =
+                        planType === 'yearly'
+                            ? item.yearlyPrice
+                            : item.monthlyPrice;
+                    const selected = item.name.toLowerCase() === plan;
+                    return (
+                        <Plan
+                            selected={selected}
+                            key={index}
+                            src={item.src}
+                            price={price}
+                            planType={planType}
+                            type="button"
+                            onClick={() => changePlan(item.name.toLowerCase())}
+                        >
+                            {item.name}
+                        </Plan>
+                    );
+                })}
             </div>
-            <button
-                type="button"
-                onClick={() => props.setStepForm((prev) => prev - 1)}
-            >
-                Back
-            </button>
-            <button type="submit">Next Step</button>
+
+            <div className="flex flex-row font-ubuntu items-center gap-3 p-3 justify-center mt-4 bg-magnolia">
+                <span className="font-bold text-[0.9rem] text-marine-blue">
+                    Monthly
+                </span>
+                <Switch onChange={onChange} enabled={enabled} />
+
+                <span className="font-bold text-[0.9rem] text-cool-gray">
+                    Yearly
+                </span>
+            </div>
         </form>
     );
 }
