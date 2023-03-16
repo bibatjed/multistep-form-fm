@@ -25,7 +25,7 @@ export default function SideBar(props: { step: number }) {
                         <Item
                             key={value}
                             step={value.toString()}
-                            active={value === step}
+                            active={value === step || value === Step.length}
                         />
                     );
                 })}

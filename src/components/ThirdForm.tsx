@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { PartialForm } from '../types/formState';
@@ -101,7 +100,7 @@ export default function ThirdForm(props: ThirdFormProps) {
             </div>
 
             <div className="flex flex-col gap-3">
-                {addOnItems.map((item) => {
+                {addOnItems.map((item, index) => {
                     const price =
                         props.planType === 'yearly'
                             ? item.yearlyPrice
@@ -118,6 +117,7 @@ export default function ThirdForm(props: ThirdFormProps) {
                     return (
                         <AddOns
                             price={price}
+                            key={index}
                             description={item.description}
                             type="button"
                             selected={selected}

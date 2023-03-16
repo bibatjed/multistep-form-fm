@@ -60,32 +60,37 @@ function App() {
                 )}
 
                 {stepForm === 5 && <ThankYou />}
-                <div className="w-screen flex self-start -translate-x-5 items-center bg-white h-16">
-                    {stepForm > 1 && (
-                        <div className="w-24 h-10 ml-3">
-                            <Button
-                                variant="secondary"
-                                type="button"
-                                onClick={() => setStepForm((prev) => prev - 1)}
-                            >
-                                Go back
-                            </Button>
-                        </div>
-                    )}
-                    {stepForm !== 5 && (
-                        <div className="w-24 h-10 mr-4 fixed right-0">
-                            <Button
-                                variant={
-                                    stepForm !== 4 ? 'primary' : 'tertiary'
-                                }
-                                type="submit"
-                                form={`hook-form-${stepForm}`}
-                            >
-                                {stepForm !== 4 ? 'Next Step' : 'Confirm'}
-                            </Button>
-                        </div>
-                    )}
-                </div>
+
+                {stepForm !== 5 && (
+                    <div className="w-screen flex self-start -translate-x-5 items-center bg-white h-16">
+                        {stepForm > 1 && (
+                            <div className="w-24 h-10 ml-3">
+                                <Button
+                                    variant="secondary"
+                                    type="button"
+                                    onClick={() =>
+                                        setStepForm((prev) => prev - 1)
+                                    }
+                                >
+                                    Go back
+                                </Button>
+                            </div>
+                        )}
+                        {stepForm !== 5 && (
+                            <div className="w-24 h-10 mr-4 fixed right-0">
+                                <Button
+                                    variant={
+                                        stepForm !== 4 ? 'primary' : 'tertiary'
+                                    }
+                                    type="submit"
+                                    form={`hook-form-${stepForm}`}
+                                >
+                                    {stepForm !== 4 ? 'Next Step' : 'Confirm'}
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -66,9 +66,12 @@ export default function FourthForm(props: IFourthForm) {
                 <span className="h-[0.5px] w-full mt-3 bg-light-gray"></span>
 
                 <div className="flex flex-col justify-start w-full gap-1 mt-3">
-                    {props.addOns.map((item) => {
+                    {props.addOns.map((item, index) => {
                         return (
-                            <div className="flex w-full items-center justify-between font-ubuntu">
+                            <div
+                                key={index}
+                                className="flex w-full items-center justify-between font-ubuntu"
+                            >
                                 <span className="text-[15px] text-cool-gray">
                                     {item.name}
                                 </span>
