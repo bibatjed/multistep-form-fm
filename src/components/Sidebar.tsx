@@ -20,12 +20,16 @@ export default function SideBar(props: { step: number }) {
     return (
         <div className="w-full bg-mobile-sidebar bg-cover bg-no-repeat h-[172px] flex">
             <div className="flex gap-4 mx-auto mt-8">
-                {Step.map((value) => {
+                {Step.map((value, index) => {
                     return (
                         <Item
                             key={value}
                             step={value.toString()}
-                            active={value === step || value === Step.length}
+                            active={
+                                value === step ||
+                                (step === Step.length + 1 &&
+                                    value === Step.at(-1))
+                            }
                         />
                     );
                 })}
