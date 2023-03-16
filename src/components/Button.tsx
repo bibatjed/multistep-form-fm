@@ -12,7 +12,7 @@ export default function Button(props: ButtonProps) {
     const { type, form, onClick, children, variant = 'primary' } = props;
     return (
         <button
-            className={`${ButtonOptions[variant]} flex items-center justify-center text-sm h-full font-ubuntu p-3 w-full font-bold rounded-sm`}
+            className={`${ButtonOptions[variant]} flex items-center justify-center text-sm h-full font-ubuntu p-3 w-full font-bold rounded-md`}
             type={type}
             form={form}
             onClick={onClick}

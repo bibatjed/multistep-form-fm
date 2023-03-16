@@ -1,7 +1,7 @@
 import ThankYouLogo from '../assets/images/icon-thank-you.svg';
 export default function ThankYou() {
     return (
-        <div className="flex flex-col items-center bg-white overflow-y-scroll px-7 py-5 w-full shadow-lg border-2 border-white rounded-md gap-3">
+        <div className="flex flex-col items-center lg:mt-14 bg-white overflow-y-scroll px-7 lg:shadow-none py-5 w-full lg:h-full shadow-lg border-2 border-white rounded-md gap-3">
             <img className="h-12 w-12 mt-9" src={ThankYouLogo} alt="icon" />
             <span className="text-2xl font-ubuntu font-bold text-marine-blue">
                 Thank You!

@@ -48,7 +48,7 @@ export default function FirstForm(props: FirstFormProps) {
     return (
         <form
             id="hook-form-1"
-            className="bg-white p-5 py-7 w-full shadow-lg border-2 border-white rounded-md"
+            className="bg-white p-5 py-7 w-full shadow-lg lg:shadow-none border-2 border-white rounded-md"
             onSubmit={handleSubmit(onSubmit)}
         >
             <div className="flex flex-col gap-4">

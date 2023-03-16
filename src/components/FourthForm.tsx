@@ -26,7 +26,7 @@ export default function FourthForm(props: IFourthForm) {
     return (
         <form
             id="hook-form-4"
-            className="bg-white overflow-y-scroll p-5 py-5 w-full shadow-lg border-2 border-white rounded-md"
+            className="bg-white overflow-y-scroll p-5 py-5 w-full lg:shadow-none shadow-lg border-2 border-white rounded-md"
             onSubmit={onSubmit}
         >
             <div className="flex flex-col gap-4">

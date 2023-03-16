@@ -92,7 +92,7 @@ export default function SecondForm(props: SecondFormProps) {
     return (
         <form
             id="hook-form-2"
-            className="bg-white overflow-y-scroll p-5 py-5 w-full shadow-lg border-2 border-white rounded-md"
+            className="bg-white lg:shadow-none overflow-y-scroll p-5 py-5 w-full shadow-lg border-2 border-white rounded-md"
             onSubmit={handleSubmit(onSubmit)}
         >
             <div className="flex flex-col gap-4">
