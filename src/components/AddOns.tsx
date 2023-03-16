@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes } from 'react';
 import IconCheck from '../assets/images/icon-checkmark.svg';
 type AddOnsProps = {
-    price: string;
+    price: number;
     planType: 'monthly' | 'yearly';
     description: string;
     selected: boolean;
@@ -42,7 +42,7 @@ export default function AddOns(props: TypeAddOns) {
                 <span className="text-xs text-cool-gray">{description}</span>
             </div>
             {selected && (
-                <span className="font-ubuntu text-purplish-blue text-xs self-center font-normal">{`+${price}/${shorterPlanType}`}</span>
+                <span className="font-ubuntu text-purplish-blue text-xs self-center font-normal">{`+$${price}/${shorterPlanType}`}</span>
             )}
         </button>
     );

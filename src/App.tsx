@@ -11,16 +11,16 @@ const initialState: FormState = {
     name: '',
     emailAddress: '',
     phoneNumber: '',
-    plan: 'arcade',
-    planType: 'monthly',
-    onlineService: false,
-    largerStorage: false,
-    customizableProfile: false,
+    plan: {
+        name: 'arcade',
+        type: 'monthly',
+        price: 9,
+    },
+    addOns: [],
 };
 function App() {
     const [stepForm, setStepForm] = useState(1);
     const [state, setState] = useState<FormState>(initialState);
-    console.log(state);
 
     return (
         <div className="relative h-screen overflow-hidden bg-magnolia">
@@ -38,18 +38,25 @@ function App() {
                     <SecondForm
                         setState={setState}
                         setStepForm={setStepForm}
-                        {...state}
+                        {...state.plan}
                     />
                 )}
                 {stepForm === 3 && (
                     <ThirdForm
                         setState={setState}
                         setStepForm={setStepForm}
-                        {...state}
+                        planType={state.plan.type}
+                        addOns={state.addOns}
                     />
                 )}
                 {stepForm === 4 && (
-                    <FourthForm setStepForm={setStepForm} {...state} />
+                    <FourthForm
+                        planPrice={state.plan.price}
+                        plan={state.plan.name}
+                        planType={state.plan.type}
+                        addOns={state.addOns}
+                        setStepForm={setStepForm}
+                    />
                 )}
 
                 {stepForm === 5 && <ThankYou />}
@@ -60,35 +67,26 @@ function App() {
                                 variant="secondary"
                                 type="button"
                                 onClick={() => setStepForm((prev) => prev - 1)}
-                                form={`hook-form-${stepForm}`}
                             >
                                 Go back
                             </Button>
                         </div>
                     )}
-                    <div className="w-24 h-10 mr-4 fixed right-0">
-                        <Button
-                            variant="primary"
-                            type="submit"
-                            form={`hook-form-${stepForm}`}
-                        >
-                            Next Step
-                        </Button>
-                    </div>
+                    {stepForm !== 5 && (
+                        <div className="w-24 h-10 mr-4 fixed right-0">
+                            <Button
+                                variant={
+                                    stepForm !== 4 ? 'primary' : 'tertiary'
+                                }
+                                type="submit"
+                                form={`hook-form-${stepForm}`}
+                            >
+                                {stepForm !== 4 ? 'Next Step' : 'Confirm'}
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </div>
-
-            {/* <div className="w-screen lg:hidden fixed bottom-0 flex justify-end items-center  bg-white h-16">
-                <div className="w-24 h-10 mr-4">
-                    <Button
-                        variant="primary"
-                        type="submit"
-                        form={`hook-form-${stepForm}`}
-                    >
-                        Next Step
-                    </Button>
-                </div>
-            </div> */}
         </div>
     );
 }

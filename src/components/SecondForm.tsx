@@ -9,8 +9,9 @@ import ProLogo from '../assets/images/icon-pro.svg';
 import Plan from './Plan';
 
 const input = z.object({
-    plan: z.string().trim().min(1, { message: 'This field is required.' }),
-    planType: z.enum(['monthly', 'yearly']),
+    name: z.string().trim().min(1, { message: 'This field is required.' }),
+    type: z.enum(['monthly', 'yearly']),
+    price: z.number(),
 });
 
 type Input = z.infer<typeof input>;
@@ -18,61 +19,75 @@ type Input = z.infer<typeof input>;
 type SecondFormProps = Input & PartialForm;
 
 type planListType = {
-    monthlyPrice: string;
+    monthlyPrice: number;
     name: string;
-    yearlyPrice: string;
+    yearlyPrice: number;
     src: string;
+    key: string;
 };
 
 const planList: planListType[] = [
     {
-        monthlyPrice: '$9',
+        monthlyPrice: 9,
         name: 'Arcade',
-        yearlyPrice: '$90',
+        yearlyPrice: 90,
         src: ArcadeLogo,
+        key: 'arcade',
     },
     {
-        monthlyPrice: '$9',
+        monthlyPrice: 12,
         name: 'Advanced',
-        yearlyPrice: '$120',
+        yearlyPrice: 120,
         src: AdvancedLogo,
+        key: 'advanced',
     },
     {
-        monthlyPrice: '$9',
+        monthlyPrice: 15,
         name: 'Pro',
-        yearlyPrice: '$150',
+        yearlyPrice: 150,
         src: ProLogo,
+        key: 'pro',
     },
 ];
 export default function SecondForm(props: SecondFormProps) {
     const { setValue, handleSubmit, watch } = useForm<Input>({
         resolver: zodResolver(input),
         values: {
-            plan: props.plan,
-            planType: props.planType,
+            name: props.name,
+            type: props.type,
+            price: props.price,
         },
     });
 
-    const planType = watch('planType');
-    const plan = watch('plan');
+    const planType = watch('type');
+    const plan = watch('name');
 
     const enabled = planType === 'yearly';
 
-    const changePlan = (value: string) => setValue('plan', value);
+    const changePlan = (name: string, price: number) => {
+        setValue('name', name);
+        setValue('price', price);
+    };
     const onSubmit = (data: Input) => {
         props.setState((prev) => {
             return {
                 ...prev,
-                ...data,
+                plan: {
+                    ...prev.plan,
+                    ...data,
+                },
             };
         });
         props.setStepForm((prev) => prev + 1);
     };
     const onChange = () => {
-        setValue(
-            'planType',
-            watch('planType') === 'monthly' ? 'yearly' : 'monthly'
-        );
+        const planResult = planList.find((item) => item.key === plan);
+        const newPrice =
+            (planType === 'monthly'
+                ? planResult?.yearlyPrice
+                : planResult?.monthlyPrice) || 0;
+        setValue('type', planType === 'monthly' ? 'yearly' : 'monthly');
+        setValue('price', newPrice);
     };
     return (
         <form
@@ -106,7 +121,9 @@ export default function SecondForm(props: SecondFormProps) {
                             price={price}
                             planType={planType}
                             type="button"
-                            onClick={() => changePlan(item.name.toLowerCase())}
+                            onClick={() =>
+                                changePlan(item.name.toLowerCase(), price)
+                            }
                         >
                             {item.name}
                         </Plan>

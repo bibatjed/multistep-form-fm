@@ -1,14 +1,23 @@
 import { SetStateAction } from "react";
+import AddOns from "../components/AddOns";
+
+type Plan = {
+    name: string;
+    type: 'monthly' | 'yearly';
+    price: number;
+}
+
+type AddOns = {
+    price: number;
+    name: string;
+}
 
 export type FormState = {
     name: string;
     emailAddress: string;
     phoneNumber: string;
-    plan: string;
-    planType: 'monthly' | 'yearly'
-    onlineService: boolean;
-    largerStorage: boolean;
-    customizableProfile: boolean;
+    plan: Plan
+    addOns: Array<AddOns>
 }
 
 export interface PartialForm {

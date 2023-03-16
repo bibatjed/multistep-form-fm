@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes } from 'react';
 type PlanProps = {
-    price: string;
+    price: number;
     planType: 'monthly' | 'yearly';
     src: string;
     selected: boolean;
@@ -26,7 +26,7 @@ export default function Plan(props: TypePlan) {
                 <span className="text-[0.9rem] font-bold text-marine-blue">
                     {children}
                 </span>
-                <span className="text-sm text-cool-gray">{`${price}/${shorterPlanType}`}</span>
+                <span className="text-sm text-cool-gray">{`$${price}/${shorterPlanType}`}</span>
                 {planType === 'yearly' && (
                     <span className="text-xs text-marine-blue">
                         2 months free
